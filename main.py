@@ -3,16 +3,14 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
-
 from sklearn.model_selection import train_test_split
 
 
 
 
-def bayes(X, y, test_size, random_state):
+def bayes(X, y):
 
-    X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size, random_state)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=125)
 
     # Build a Gaussian Classifier
     model = GaussianNB()
@@ -34,17 +32,41 @@ if __name__ == '__main__':
 
     print('Loading data...')
     df = pd.read_csv(data_filename)
+    print('Data loaded.')
 
-    x = df.drop(['isAlive'], axis=1, errors='ignore')
+    # Preprocessing
+    # Numeric Columns
+    numeric_cols = ['age', 'dateOfBirth', 'popularity', 'numDeadRelations']
+    for col in numeric_cols:
+        if col in df.columns:
+            df[col] = df[col].fillna(df[col].median())
+
+
+    # Binary Columns
+    binary_cols = ['isAliveMother', 'isAliveFather', 'isAliveHeir', 'isAliveSpouse', 'male',
+                   'isMarried', 'isNoble', 'book1', 'book2', 'book3', 'book4', 'book5']
+    for col in binary_cols:
+        if col in df.columns:
+            df[col] = df[col].fillna(0)
+
+
+    # Categorical columns
+    # categorical_cols = ['title', 'culture', 'mother', 'father', 'heir', 'house', 'spouse']
+    # df = pd.get_dummies(df, columns=categorical_cols, dummy_na=True)
+
+    df.drop(['name', 'S.No'], axis=1, inplace=True, errors='ignore')
+    df.drop(['title', 'culture', 'mother', 'father', 'heir', 'house', 'spouse'], axis=1, inplace=True)
+
+    x = df.drop(['isAlive'], axis=1)
     y = df['isAlive']
 
     x = x.to_numpy()
     y = y.to_numpy()
 
-    print('X:', x.shape)
-    print('X:', y.shape)
+    # scaler = StandardScaler()
+    # x = scaler.fit_transform(x)
 
-    bayes(x, y, test_size=.33, random_state=125)
+    bayes(x, y)
 
 
 
