@@ -12,16 +12,20 @@ def loadDataSet(fileName):      #general function to parse tab -delimited floats
     fr = open(fileName)
     for line in fr.readlines():
         curLine = line.strip().split(',')
-        fltLine = list(map(float,curLine)) #map all elements to float()
-        dataMat.append(fltLine)
+        dataMat.append(curLine)
     return np.array(dataMat)
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 2:
         data_filename = sys.argv[1]
-        cluster_number = int(sys.argv[2])
     else:
-        data_filename = 'Example.csv'
-        cluster_number = 1
+        data_filename = 'game_of_thrones_train.csv'
+
+    print('Loading data...')
+    dataMat = loadDataSet(data_filename)
+
+
+
+
 
