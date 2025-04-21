@@ -1,9 +1,17 @@
 import sys
 import numpy as np
 import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    ConfusionMatrixDisplay,
+    f1_score, classification_report,
+)
 
 
 
@@ -19,10 +27,33 @@ def bayes(X, y):
     model.fit(X_train, y_train)
 
     # Predict Output
-    predicted = model.predict([X_test[6]])
+    predicted = model.predict(X_test)
 
-    print("Actual Value:", y_test[6])
-    print("Predicted Value:", predicted[0])
+    # print("Actual Value:", y_test)
+    # print("Predicted Value:", predicted)
+
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_pred, y_test)
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    class_report = classification_report(y_test, y_pred)
+
+    print("Accuracy:", accuracy)
+    print("Confusion Matrix:", conf_matrix)
+    print("Classification Report:", class_report)
+
+    plt.figure(figsize=(8,6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False,
+               xticklabels=['Deceased', 'Alive'], yticklabels=['Deceased', 'Alive'])
+    plt.title("Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.savefig("ConfusionMatrix.png")
+    plt.show()
+    plt.close()
+
+
+
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
