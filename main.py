@@ -56,8 +56,8 @@ def bayes(X, y):
     plt.title("Confusion Matrix")
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
-    # plt.savefig("ConfusionMatrix.png")
-    # plt.show()
+    plt.savefig("ConfusionMatrix.png")
+    plt.show()
     plt.close()
 
 
