@@ -58,11 +58,11 @@ def bayes(X, y):
 
 def install_requirements():
     requirements = [
-        'numpy==1.25.2',
-        'pandas==2.2.3',
+        'numpy==1.27.0',
+        'pandas==2.2.2',
         'seaborn==0.13.2',
-        'matplotlib==3.10.0',
-        'scikit-learn==1.6.1'
+        'matplotlib==3.8.4',
+        'scikit-learn==1.4.2'
     ]
 
     for req in requirements:
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     # Install requirements
     install_requirements()
 
-    # Read arguements
+    # Read arguments
     if len(sys.argv) == 2:
         data_filename = sys.argv[1]
     else:
@@ -89,6 +89,7 @@ if __name__ == '__main__':
     print('Loading data...')
     df = pd.read_csv(data_filename)
     print('Data loaded.')
+
 
     # Preprocessing
     # Numeric Columns
