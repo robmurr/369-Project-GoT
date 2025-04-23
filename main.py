@@ -1,3 +1,5 @@
+import importlib
+import subprocess
 import sys
 import numpy as np
 import pandas as pd
@@ -18,6 +20,7 @@ from sklearn.metrics import (
 
 def bayes(X, y):
 
+    # Split the training data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=125)
 
     # Build a Gaussian Classifier
@@ -27,12 +30,12 @@ def bayes(X, y):
     model.fit(X_train, y_train)
 
     # Predict Output
-    predicted = model.predict(X_test)
+    y_pred = model.predict(X_test)
 
     # print("Actual Value:", y_test)
-    # print("Predicted Value:", predicted)
+    # print("Predicted Value:", y_pred)
 
-    y_pred = model.predict(X_test)
+    # Calculate values
     accuracy = accuracy_score(y_pred, y_test)
     conf_matrix = confusion_matrix(y_test, y_pred)
     class_report = classification_report(y_test, y_pred)
@@ -41,6 +44,7 @@ def bayes(X, y):
     print("Confusion Matrix:", conf_matrix)
     print("Classification Report:", class_report)
 
+    # Create matplot figure
     plt.figure(figsize=(8,6))
     sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', cbar=False,
                xticklabels=['Deceased', 'Alive'], yticklabels=['Deceased', 'Alive'])
@@ -52,10 +56,31 @@ def bayes(X, y):
     plt.close()
 
 
+def install_requirements():
+    requirements = [
+        'numpy==1.25.2',
+        'pandas==2.2.3',
+        'seaborn==0.13.2',
+        'matplotlib==3.10.0',
+        'scikit-learn==1.6.1'
+    ]
 
+    for req in requirements:
+        package = req.split('==')[0]
+        try:
+            importlib.import_module(package)
+        except ImportError:
+            try:
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', req])
+            except subprocess.CalledProcessError as e:
+                sys.exit(1)
 
 
 if __name__ == '__main__':
+    # Install requirements
+    install_requirements()
+
+    # Read arguements
     if len(sys.argv) == 2:
         data_filename = sys.argv[1]
     else:
