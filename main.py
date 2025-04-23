@@ -58,11 +58,16 @@ def bayes(X, y):
 
 def install_requirements():
     requirements = [
-        'numpy==1.27.0',
-        'pandas==2.2.2',
-        'seaborn==0.13.2',
-        'matplotlib==3.8.4',
-        'scikit-learn==1.4.2'
+        # 'numpy==1.25.2',
+        # 'pandas==2.2.3',
+        # 'seaborn==0.13.2',
+        # 'matplotlib==3.10.0',
+        # 'scikit-learn==1.6.1'
+        'numpy>=1.28.0',
+        'pandas>=2.2.3',
+        'seaborn>=0.14.0',
+        'matplotlib>=3.9.2',
+        'scikit-learn>=1.5.2'
     ]
 
     for req in requirements:
