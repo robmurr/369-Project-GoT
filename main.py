@@ -123,11 +123,24 @@ if __name__ == '__main__':
     # Categorical columns
     # categorical_cols = ['title', 'culture', 'mother', 'father', 'heir', 'house', 'spouse']
 
+    
+
     df.drop(['name', 'S.No'], axis=1, inplace=True, errors='ignore')
-    df.drop(['title', 'culture', 'mother', 'father', 'heir', 'house', 'spouse'], axis=1, inplace=True)
+
+    #encodes each unique string as a corresponding unique numerical value
+    string_cols = ['title', 'culture', 'mother', 'father', 'heir', 'house', 'spouse']
+    for col in string_cols:
+        df[col] = pd.factorize(df[col])[0]
+    print(df.head(10))
+
+
+    #df.drop(['title', 'culture', 'mother', 'father', 'heir', 'house', 'spouse'], axis=1, inplace=True)
+
 
     x = df.drop(['isAlive'], axis=1)
     y = df['isAlive']
+
+    
 
     x = x.to_numpy()
     y = y.to_numpy()
